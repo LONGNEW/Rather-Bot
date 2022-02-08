@@ -9,13 +9,13 @@ class MyClient(discord.Client):
         self.info = [dict() for _ in range(4)]
         print("Login")
 
-    @tasks.loop(minutes=2)
+    @tasks.loop(minutes=10)
     async def notice(self, ch):
-        print("notice 위")
         date = str(datetime.datetime.now().date()).replace("-", ".")[2:]
+        print(date)
         prev_date = str(open("../txtFile/data_date.txt").readline())
         print(prev_date)
-        
+
         if date != prev_date:
             self.info = [dict()] * 4
             with open("../txtFile/data_date.txt", "w") as f:
