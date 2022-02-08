@@ -7,7 +7,7 @@ where = ["백마 광장", "학사 공지", "일반 소식", "사업단 소식"]
 class MyClient(discord.Client):
     async def on_ready(self):
         self.info = [dict() for _ in range(4)]
-        self.prev_date = str(datetime.datetime.now().date()).replace("-", ".")[2:]
+        self.prev_date = "22.02.09"
         print("Login")
 
     @tasks.loop(minutes=2)
