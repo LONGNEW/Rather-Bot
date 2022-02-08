@@ -10,8 +10,9 @@ class MyClient(discord.Client):
         self.prev_date = str(datetime.datetime.now().date()).replace("-", ".")[2:]
         print("Login")
 
-    @tasks.loop(minutes=10)
+    @tasks.loop(minutes=2)
     async def notice(self, ch):
+        print("keep crawl")
         date = str(datetime.datetime.now().date()).replace("-", ".")[2:]
 
         if date != self.prev_date:
