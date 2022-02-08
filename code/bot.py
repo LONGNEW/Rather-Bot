@@ -11,9 +11,11 @@ class MyClient(discord.Client):
 
     @tasks.loop(minutes=2)
     async def notice(self, ch):
+        print("notice 위")
         date = str(datetime.datetime.now().date()).replace("-", ".")[2:]
         prev_date = str(open("../txtFile/data_date.txt").readline())
-
+        print(prev_date)
+        
         if date != prev_date:
             self.info = [dict()] * 4
             with open("../txtFile/data_date.txt", "w") as f:
@@ -48,6 +50,7 @@ class MyClient(discord.Client):
 
         if message.content == '공지':
             await self.change_presence(activity=discord.Game("근무"))
+            print("공지 내부")
             await self.notice.start(message)
 
 TOKEN = os.environ.get('BOT_TOKEN')
