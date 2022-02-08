@@ -50,6 +50,6 @@ class MyClient(discord.Client):
             await self.change_presence(activity=discord.Game("근무"))
             await self.notice.start(message)
 
-# TOKEN = os.environ.get('BOT_TOKEN')
+TOKEN = os.environ.get('BOT_TOKEN')
 client = MyClient()
-client.run("ODU2MTI4OTg1NDU1Nzg4MDMz.YM8iQA.oA20hZRX4OC4cJTscRxHdUDZaro")
+client.run(TOKEN)
