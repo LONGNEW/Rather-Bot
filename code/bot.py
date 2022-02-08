@@ -13,13 +13,11 @@ class MyClient(discord.Client):
     @tasks.loop(minutes=10)
     async def notice(self, ch):
         date = str(datetime.datetime.now().date()).replace("-", ".")[2:]
-        print(self.prev_date)
 
         if date != self.prev_date:
             self.info = [dict() for _ in range(4)]
             self.prev_date = date
 
-        print("크롤링 직전")
         for i in range(4):
             # ret[0] has a value that how many posts are uploaded in today
             ret = tool.what_you_want(i, date)

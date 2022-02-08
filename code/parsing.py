@@ -25,15 +25,14 @@ def get_the_content(url, date):
     soup = BeautifulSoup(res.content, "html.parser")
 
     update = soup.select('div.total-wrap > span')
-    print(update)
     ret.append("오늘 업데이트 된 게시글 : " + update[1].text)
 
     files = soup.select('tbody > tr')
     for item in files:
         temp = []
 
-        # if date != item.text.split()[-2]:
-        #      continue
+        if date != item.text.split()[-2]:
+             continue
 
         temp.append(item.select_one('td.b-num-box').text.strip().replace("\n", "").replace("\t", ""))
 
@@ -67,8 +66,8 @@ def get_from_cnu(url, date):
     for item in files:
         temp = []
 
-        # if date != item.text.split()[-2].replace("-", ".")[2:]:
-        #     continue
+        if date != item.text.split()[-2].replace("-", ".")[2:]:
+            continue
 
         temp.append(item.select_one('td.num').text.strip().replace("\n", "").replace("\t", ""))
 
