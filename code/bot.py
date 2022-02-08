@@ -1,8 +1,8 @@
 import discord
+import os
 from discord.ext import tasks
 
-f = open("../token.txt", "r")
-TOKEN = f.readline().rstrip()
+TOKEN = os.environ.get('BOT_TOKEN')
 
 class MyClient(discord.Client):
     async def on_ready(self):
