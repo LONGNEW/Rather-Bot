@@ -25,6 +25,7 @@ def get_the_content(url, date):
     soup = BeautifulSoup(res.content, "html.parser")
 
     update = soup.select('div.total-wrap > span')
+    print(update)
     ret.append("오늘 업데이트 된 게시글 : " + update[1].text)
 
     files = soup.select('tbody > tr')
