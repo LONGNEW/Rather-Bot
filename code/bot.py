@@ -7,20 +7,19 @@ where = ["백마 광장", "학사 공지", "일반 소식", "사업단 소식"]
 class MyClient(discord.Client):
     async def on_ready(self):
         self.info = [dict() for _ in range(4)]
+        self.prev_date = "22.02.09"
         print("Login")
 
     @tasks.loop(minutes=10)
     async def notice(self, ch):
         date = str(datetime.datetime.now().date()).replace("-", ".")[2:]
-        print(date)
-        prev_date = str(open("../txtFile/data_date.txt").readline())
-        print(prev_date)
+        print(self.prev_date)
 
-        if date != prev_date:
-            self.info = [dict()] * 4
-            with open("../txtFile/data_date.txt", "w") as f:
-                f.write(date)
+        if date != self.prev_date:
+            self.info = [dict() for _ in range(4)]
+            self.prev_date = date
 
+        print("크롤링 직전")
         for i in range(4):
             # ret[0] has a value that how many posts are uploaded in today
             ret = tool.what_you_want(i, date)
