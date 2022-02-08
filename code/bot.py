@@ -6,7 +6,7 @@ where = ["백마 광장", "학사 공지", "일반 소식", "사업단 소식"]
 
 class MyClient(discord.Client):
     async def on_ready(self):
-        self.info = [dict()] * 4
+        self.info = [dict() for _ in range(4)]
         print("Login")
 
     @tasks.loop(minutes=2)
@@ -23,6 +23,9 @@ class MyClient(discord.Client):
             # ret[0] has a value that how many posts are uploaded in today
             ret = tool.what_you_want(i, date)
             temp = discord.Embed(title=where[i], description=ret[0], color=0x62c1cc)
+
+            if len(ret) == 1:
+                continue
 
             for j in range(1, len(ret)):
                 title = ret[j][1]
