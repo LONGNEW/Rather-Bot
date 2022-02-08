@@ -21,22 +21,22 @@ class MyClient(discord.Client):
 
         for i in range(4):
             # ret[0] has a value that how many posts are uploaded in today
-            ret = tool.what_you_want(i, date)
+            ret, cnt = tool.what_you_want(i, date), 0
             temp = discord.Embed(title=where[i], description=ret[0], color=0x62c1cc)
 
-            if len(ret) == 1:
-                continue
-
+            print(ret)
             for j in range(1, len(ret)):
                 title = ret[j][1]
                 if title in self.info[i]:
                     continue
 
+                cnt += 1
                 self.info[i][title] = 1
                 title = str(ret[j][0] + "    " + ret[j][1])
                 temp.add_field(name=title, value=ret[j][-1], inline=False)
 
-            await ch.channel.send("", embed=temp)
+            if cnt:
+                await ch.channel.send("", embed=temp)
 
     async def on_message(self, message):
         # don't respond to ourselves
