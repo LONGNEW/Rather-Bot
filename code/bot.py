@@ -7,11 +7,12 @@ where = ["백마 광장", "학사 공지", "일반 소식", "사업단 소식"]
 class MyClient(discord.Client):
     async def on_ready(self):
         self.info = [dict()] * 4
+        print("Login")
 
-    @tasks.loop(minutes=5)
+    @tasks.loop(minutes=2)
     async def notice(self, ch):
         date = str(datetime.datetime.now().date()).replace("-", ".")[2:]
-        prev_date = str(open("data_date.txt").readline())
+        prev_date = str(open("../txtFile/data_date.txt").readline())
 
         if date != prev_date:
             self.info = [dict()] * 4
@@ -46,6 +47,6 @@ class MyClient(discord.Client):
             await self.change_presence(activity=discord.Game("근무"))
             await self.notice.start(message)
 
-TOKEN = os.environ.get('BOT_TOKEN')
+# TOKEN = os.environ.get('BOT_TOKEN')
 client = MyClient()
-client.run(TOKEN)
+client.run("ODU2MTI4OTg1NDU1Nzg4MDMz.YM8iQA.oA20hZRX4OC4cJTscRxHdUDZaro")
