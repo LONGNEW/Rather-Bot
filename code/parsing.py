@@ -31,8 +31,8 @@ def get_the_content(url, date):
     for item in files:
         temp = []
 
-        if date != item.text.split()[-2]:
-             continue
+        # if date != item.text.split()[-2]:
+        #      continue
 
         temp.append(item.select_one('td.b-num-box').text.strip().replace("\n", "").replace("\t", ""))
 
@@ -66,8 +66,8 @@ def get_from_cnu(url, date):
     for item in files:
         temp = []
 
-        if date != item.text.split()[-2].replace("-", ".")[2:]:
-            continue
+        # if date != item.text.split()[-2].replace("-", ".")[2:]:
+        #     continue
 
         temp.append(item.select_one('td.num').text.strip().replace("\n", "").replace("\t", ""))
 
