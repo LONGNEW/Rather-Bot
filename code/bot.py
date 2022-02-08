@@ -7,7 +7,6 @@ where = ["백마 광장", "학사 공지", "일반 소식", "사업단 소식"]
 class MyClient(discord.Client):
     async def on_ready(self):
         self.info = [dict()] * 4
-        print('Logged on as', self.user)
 
     @tasks.loop(minutes=5)
     async def notice(self, ch):
@@ -16,7 +15,7 @@ class MyClient(discord.Client):
 
         if date != prev_date:
             self.info = [dict()] * 4
-            with open("data_date.txt", "w") as f:
+            with open("../txtFile/data_date.txt", "w") as f:
                 f.write(date)
 
         for i in range(4):
