@@ -1,8 +1,9 @@
-import discord, os, datetime
+import discord, os, datetime, pytz
 import parsing as tool
 from discord.ext import tasks
 
 where = ["백마 광장", "학사 공지", "일반 소식", "사업단 소식"]
+KST = pytz.timezone("Asia/Seoul")
 
 class MyClient(discord.Client):
     async def on_ready(self):
@@ -13,7 +14,7 @@ class MyClient(discord.Client):
     @tasks.loop(minutes=2)
     async def notice(self, ch):
         print("keep crawl")
-        date = str(datetime.datetime.now().date()).replace("-", ".")[2:]
+        date = str(datetime.datetime.now(KST).date()).replace("-", ".")[2:]
 
         if date != self.prev_date:
             self.info = [dict() for _ in range(4)]
