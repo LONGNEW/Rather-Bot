@@ -33,7 +33,7 @@ def get_the_content(url, date):
 
         if date != item.text.split()[-2]:
              continue
-
+        print(item.text.split()[-2])
         temp.append(item.select_one('td.b-num-box').text.strip().replace("\n", "").replace("\t", ""))
 
         title = item.select_one('div.b-title-box > a')

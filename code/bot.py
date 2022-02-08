@@ -48,7 +48,6 @@ class MyClient(discord.Client):
 
         if message.content == '공지':
             await self.change_presence(activity=discord.Game("근무"))
-            print("공지 내부")
             await self.notice.start(message)
 
 TOKEN = os.environ.get('BOT_TOKEN')
