@@ -1,43 +1,13 @@
-import discord, os, datetime, pytz
-import parsing as tool
-from discord.ext import tasks
+import discord, looping, os
 
-where = ["백마 광장", "학사 공지", "일반 소식", "사업단 소식"]
-KST = pytz.timezone("Asia/Seoul")
+channels = looping.channels
 
 class MyClient(discord.Client):
     async def on_ready(self):
-        self.info = [dict() for _ in range(4)]
-        self.prev_date = "22.02.09"
-        print("Login")
-
-    @tasks.loop(minutes=2)
-    async def notice(self, ch):
-        print("keep crawl")
-        date = str(datetime.datetime.now(KST).date()).replace("-", ".")[2:]
-
-        if date != self.prev_date:
-            self.info = [dict() for _ in range(4)]
-            self.prev_date = date
-
-        for i in range(4):
-            # ret[0] has a value that how many posts are uploaded in today
-            ret, cnt = tool.what_you_want(i, date), 0
-            temp = discord.Embed(title=where[i], description=ret[0], color=0x62c1cc)
-
-            print(ret)
-            for j in range(1, len(ret)):
-                title = ret[j][1]
-                if title in self.info[i]:
-                    continue
-
-                cnt += 1
-                self.info[i][title] = 1
-                title = str(ret[j][0] + "    " + ret[j][1])
-                temp.add_field(name=title, value=ret[j][-1], inline=False)
-
-            if cnt:
-                await ch.channel.send("", embed=temp)
+        self.task = looping.MyCog()
+        self.work = 1
+        await client.change_presence(activity=discord.Game("근무"))
+        print('Logged on as', self.user)
 
     async def on_message(self, message):
         # don't respond to ourselves
@@ -48,8 +18,34 @@ class MyClient(discord.Client):
             await message.channel.send('pong')
 
         if message.content == '공지':
+            # 새로운 채널이 연결된 경우 이를 저장.
+            if message.channel not in channels:
+                channels[message.channel] = 1
+
+            # 근무를 하지 않고 있던 경우에는 재시작을 해서 메시지를 보내도록 해야함.
+            if not self.work:
+                self.work = 1
+                await self.task.notice.start()
+
+            print(f"{message.guild.name}에서 [공지]를 입력")
+            for ch in channels.keys():
+                print(ch.id, ch)
+            print()
+
             await self.change_presence(activity=discord.Game("근무"))
-            await self.notice.start(message)
+            await message.channel.send(f"채널 [{message.guild.name}]이 추가되었습니다.")
+
+        if message.content == '정지':
+            await client.change_presence(activity=discord.Game("휴식"))
+
+            # 일을 하고 있던 상황에서는 bool 값을 변경해야 함.
+            if self.work:
+                self.work = 0
+                self.task.notice_stop()
+
+                print(f"{message.guild.name}에서 [정지]를 입력\n")
+                for ch in channels:
+                    await ch.send(f"{message.guild.name}에서 [정지]를 입력하였습니다.")
 
 TOKEN = os.environ.get('BOT_TOKEN')
 client = MyClient()
