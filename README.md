@@ -8,7 +8,7 @@
 ### How to use
 > [Add Bot to Your Server](https://discord.com/api/oauth2/authorize?client_id=856128985455788033&permissions=2048&scope=bot)
 > <br>
-> If you want to use the no.1 type "공지" at your server
+> If you want to use the no.1 type "공지" at your server <br>
 > ![](./cmd%20%5B공지%5D.png)
 > <br>
 > the you'll get the respond and your channel is now appended to bot
