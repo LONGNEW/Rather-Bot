@@ -13,7 +13,7 @@ class MyCog(commands.Cog):
 
     @tasks.loop(minutes=3)
     async def notice(self):
-        print("keep crawl")
+        
         for ch in self.channels:
             print(f"연결된 채널 {ch.guild, ch.id}")
         print()
