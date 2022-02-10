@@ -1,7 +1,5 @@
 import discord, looping, os
 
-channels = looping.channels
-
 class MyClient(discord.Client):
     async def on_ready(self):
         self.task = looping.MyCog()
@@ -19,8 +17,8 @@ class MyClient(discord.Client):
 
         if message.content == '공지':
             # 새로운 채널이 연결된 경우 이를 저장.
-            if message.channel not in channels:
-                channels[message.channel] = 1
+            if message.channel not in self.task.channels:
+                self.task.channels[message.channel] = 1
 
             # 근무를 하지 않고 있던 경우에는 재시작을 해서 메시지를 보내도록 해야함.
             if not self.work:
@@ -28,7 +26,7 @@ class MyClient(discord.Client):
                 await self.task.notice.start()
 
             print(f"{message.guild.name}에서 [공지]를 입력")
-            for ch in channels.keys():
+            for ch in self.task.channels.keys():
                 print(ch.id, ch)
             print()
 
@@ -44,7 +42,7 @@ class MyClient(discord.Client):
                 self.task.notice_stop()
 
                 print(f"{message.guild.name}에서 [정지]를 입력\n")
-                for ch in channels:
+                for ch in self.task.channels:
                     await ch.send(f"{message.guild.name}에서 [정지]를 입력하였습니다.")
 
 TOKEN = os.environ.get('BOT_TOKEN')
