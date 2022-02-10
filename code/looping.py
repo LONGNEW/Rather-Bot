@@ -14,6 +14,10 @@ class MyCog(commands.Cog):
     @tasks.loop(minutes=3)
     async def notice(self):
         print("keep crawl")
+        for ch in self.channels:
+            print(f"연결된 채널 {ch.guild, ch.id}")
+        print()
+
         where = ["백마 광장", "학사 공지", "일반 소식", "사업단 소식"]
         KST = pytz.timezone("Asia/Seoul")
         date = str(datetime.datetime.now(KST).date()).replace("-", ".")[2:]
