@@ -21,6 +21,7 @@ class MyCog(commands.Cog):
         where = ["백마 광장", "학사 공지", "일반 소식", "사업단 소식"]
         KST = pytz.timezone("Asia/Seoul")
         date = str(datetime.datetime.now(KST).date()).replace("-", ".")[2:]
+        crawl_cnt = []
 
         if date != self.prev_date:
             self.info = [dict() for _ in range(4)]
@@ -41,8 +42,10 @@ class MyCog(commands.Cog):
                 title = str(ret[j][0] + "    " + ret[j][1])
                 temp.add_field(name=title, value=ret[j][-1], inline=False)
 
+            crawl_cnt.append(cnt)
             if cnt:
                 for ch in self.channels:
                     print(f"{i}번쨰 크롤링 , send to : {ch.guild, ch.id}")
                     await ch.send("", embed=temp)
                 print()
+        print(*crawl_cnt)
