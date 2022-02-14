@@ -11,8 +11,9 @@ class MyCog(commands.Cog):
     def notice_stop(self):
         self.notice.cancel()
 
-    @tasks.loop(minutes=3)
+    @tasks.loop(minutes=1)
     async def notice(self):
+        print("start to crawl")
         for ch in self.channels:
             print(f"연결된 채널 {ch.guild, ch.id}")
 
