@@ -42,6 +42,6 @@ class MyClient(discord.Client):
             await message.channel.send(f"added [{message.guild.name}]")
 
 
-# TOKEN = os.environ.get('BOT_TOKEN')
+TOKEN = os.environ.get('BOT_TOKEN')
 client = MyClient()
-client.run("ODU2MTI4OTg1NDU1Nzg4MDMz.YM8iQA.LjgrT4m5OzEmWW0mi7Imv_c_rTU")
+client.run(TOKEN)
