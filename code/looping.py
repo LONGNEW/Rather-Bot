@@ -11,29 +11,32 @@ class MyCog(commands.Cog):
     def notice_stop(self):
         self.notice.cancel()
 
-    @tasks.loop(minutes=1)
+    @tasks.loop(minutes=4)
     async def notice(self):
-        print("start to crawl")
         for ch in self.channels:
             print(f"연결된 채널 {ch.guild, ch.id}")
 
         where = ["백마 광장", "학사 공지", "일반 소식", "사업단 소식"]
+
         KST = pytz.timezone("Asia/Seoul")
-        date = str(datetime.datetime.now(KST).date()).replace("-", ".")[2:]
+        withtime = str(datetime.datetime.now(KST)).replace("-", ".")[2:].split()
+        date = withtime[0]
+        time = withtime[1].split(".")[0]
+        print(f"date in korea : {date}, time in korea : {time}")
 
         if date != self.prev_date:
             self.info = [dict() for _ in range(4)]
             self.prev_date = date
 
+        uploaded = []
         for i in range(4):
             # ret[0] has a value that how many posts are uploaded in today
             ret, cnt = tool.what_you_want(i, date), 0
             temp = discord.Embed(title=where[i], description=ret[0], color=0x62c1cc)
 
-            print(f"Post Uploaded {ret[0]}")
+            uploaded.append(str(ret[0]).strip())
             for j in range(1, len(ret)):
                 title = ret[j][1]
-                print(title)
                 if title in self.info[i]:
                     continue
 
@@ -42,8 +45,9 @@ class MyCog(commands.Cog):
                 title = str(ret[j][0] + "    " + ret[j][1])
                 temp.add_field(name=title, value=ret[j][-1], inline=False)
 
-            print("----------------------")
             if cnt:
                 for ch in self.channels:
-                    print(f"{i}번쨰 크롤링 , send to : {ch.guild, ch.id}")
+                    print(f"send to : {ch.guild, ch.id}")
                     await ch.send("", embed=temp)
+
+        print(f"Update : {uploaded}")
