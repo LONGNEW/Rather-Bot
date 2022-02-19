@@ -3,7 +3,7 @@ from discord.ext import tasks, commands
 import asyncio
 
 def status():
-    print(f"now runnig : {asyncio.current_task()}")
+    print(f"now running {asyncio.get_running_loop()}")
 
 class MyCog(commands.Cog):
     def __init__(self):
