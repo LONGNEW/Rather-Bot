@@ -9,10 +9,10 @@ class MyCog(commands.Cog):
         self.channels = dict()
         self.info = [dict() for _ in range(4)]
         self.prev_date = "22.02.09"
-        await self.crawl()
+        self.crawl()
 
-    @tasks.loop(minutes=2)
-    async def crawl(self):
+    @tasks.loop(minutes=5)
+    def crawl(self):
         self.task = asyncio.create_task(self.notice())
 
     async def notice(self):
