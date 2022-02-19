@@ -1,6 +1,5 @@
-import discord, datetime, parsing as tool, pytz
+import discord, datetime, parsing as tool, pytz, asyncio
 from discord.ext import tasks, commands
-import asyncio
 
 def status():
     print(f"now running {asyncio.get_running_loop()}")
@@ -10,12 +9,12 @@ class MyCog(commands.Cog):
         self.channels = dict()
         self.info = [dict() for _ in range(4)]
         self.prev_date = "22.02.09"
-        self.notice.start()
+        self.crawl()
 
-    def notice_stop(self):
-        self.notice.cancel()
+    @tasks.loop(minutes=2)
+    async def crawl(self):
+        self.task = asyncio.create_task(self.notice())
 
-    @tasks.loop(minutes=4)
     async def notice(self):
         for ch in self.channels:
             print(f"연결된 채널 {ch.guild, ch.id}")
