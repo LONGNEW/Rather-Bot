@@ -15,6 +15,7 @@ class MyClient(discord.Client):
             await message.channel.send('pong')
 
         if message.content == "연결":
+            looping.status()
             print(f"{message.guild.name}에서 [연결]을 입력")
             for ch in self.task.channels.keys():
                 print(ch.id, ch, ch.guild.name)

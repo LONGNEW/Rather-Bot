@@ -1,5 +1,9 @@
 import discord, datetime, parsing as tool, pytz
 from discord.ext import tasks, commands
+import asyncio
+
+def status():
+    print(f"now runnig : {asyncio.current_task()}")
 
 class MyCog(commands.Cog):
     def __init__(self):
