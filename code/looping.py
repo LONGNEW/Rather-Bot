@@ -9,6 +9,7 @@ class MyCog(commands.Cog):
         self.channels = dict()
         self.info = [dict() for _ in range(4)]
         self.prev_date = "22.02.09"
+        self.notice.start()
 
     @tasks.loop(minutes=3)
     async def notice(self):
