@@ -47,6 +47,8 @@ class MyCog(commands.Cog):
                 self.info[i][title] = 1
                 title = str(ret[j][0] + "    " + ret[j][1])
                 temp.add_field(name=title, value=ret[j][-1], inline=False)
+                
+            await ch.channel.send("", embed=temp)
 
             if cnt:
                 for ch in self.channels:
