@@ -9,15 +9,9 @@ class MyCog(commands.Cog):
         self.channels = dict()
         self.info = [dict() for _ in range(4)]
         self.prev_date = "22.02.09"
-        self.crawl()
 
-    @tasks.loop(minutes=5)
-    def crawl(self):
-        self.task = asyncio.create_task(self.notice())
-
+    @tasks.loop(minutes=3)
     async def notice(self):
-        for ch in self.channels:
-            print(f"연결된 채널 {ch.guild, ch.id}")
 
         where = ["백마 광장", "학사 공지", "일반 소식", "사업단 소식"]
 
@@ -25,7 +19,6 @@ class MyCog(commands.Cog):
         withtime = str(datetime.datetime.now(KST)).replace("-", ".")[2:].split()
         date = withtime[0]
         time = withtime[1].split(".")[0]
-        print(f"date in korea : {date}, time in korea : {time}")
 
         if date != self.prev_date:
             self.info = [dict() for _ in range(4)]
