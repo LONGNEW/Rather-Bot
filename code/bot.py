@@ -14,12 +14,6 @@ class MyClient(discord.Client):
         if message.content == 'ping':
             await message.channel.send('pong')
 
-        if message.content == "연결":
-            looping.status()
-            print(f"{message.guild.name} typed [연결]")
-            for ch in self.task.channels.keys():
-                print(ch.id, ch, ch.guild.name)
-
         if message.content == '공지':
             # 새로운 채널이 연결된 경우 이를 저장.
             if message.channel not in self.task.channels:
